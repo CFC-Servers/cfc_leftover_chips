@@ -22,12 +22,13 @@ leftovers = {}
 
 onCreate = (ent) ->
     return unless IsValid ent
-    return unless leftovers[ent\GetClass!]
+    return unless watchedEntities[ent\GetClass!]
 
-    rawset watchedEntities, ent, true
+    rawset leftovers, ent, true
 
-    ent\CallOnRemove "CFC_LeftoverChips_Untrack", ->
-        rawset watchedEntities, ent, nil
+    ent\CallOnRemove "CFC_Leftovers_Untrack", ->
+        rawset leftovers, ent, nil
+hook.Create "OnEntityCreated", "CFC_Leftovers_Track"
 
 cleanup = ->
     for leftover in pairs leftovers
@@ -36,5 +37,4 @@ cleanup = ->
             continue if IsValid leftover[property]
 
         SafeRemoveEntityDelayed leftovers, 0
-
-hook.Add "PlayerDisconnected", "CFC_LeftoverChips_Cleanup", cleanup
+hook.Add "PlayerDisconnected", "CFC_Leftovers_Cleanup", cleanup
