@@ -1,11 +1,11 @@
-entsGetAll = ents.GetAll
 rawget = rawget
 rawset = rawset
 pairs = pairs
 IsValid = IsValid
 SafeRemoveEntityDelayed = SafeRemoveEntityDelayed
 
-leftovers = {
+-- Which classes do we want to insist on destroying
+watchedEntities = {
     gmod_wire_expression_2: true
     starfall_processor: true
 }
@@ -16,16 +16,16 @@ checkProperty = {
     starfall_processor: "owner"
 }
 
-watchedEntities = {}
+leftovers = {}
 
 onCreate = (ent) ->
     return unless IsValid ent
     return unless leftovers[ent\GetClass!]
 
-    watchedEntities[ent] = true
+    rawset watchedEntities, ent, true
 
     ent\CallOnRemove "CFC_LeftoverChips_Untrack", ->
-        watchedEntities[ent] = nil
+        rawset watchedEntities, ent, nil
 
 cleanup = ->
     for leftover in pairs leftovers
