@@ -28,7 +28,7 @@ onCreate = (ent) ->
 
     ent\CallOnRemove "CFC_Leftovers_Untrack", ->
         rawset leftovers, ent, nil
-hook.Create "OnEntityCreated", "CFC_Leftovers_Track"
+hook.Create "OnEntityCreated", "CFC_Leftovers_Track", onCreate
 
 cleanup = ->
     for leftover in pairs leftovers
@@ -36,5 +36,5 @@ cleanup = ->
             property = checkProperty[leftover\GetClass!]
             continue if IsValid leftover[property]
 
-        SafeRemoveEntityDelayed leftovers, 0
+        SafeRemoveEntityDelayed leftover, 0
 hook.Add "PlayerDisconnected", "CFC_Leftovers_Cleanup", cleanup
