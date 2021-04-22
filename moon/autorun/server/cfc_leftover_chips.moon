@@ -7,12 +7,14 @@ SafeRemoveEntityDelayed = SafeRemoveEntityDelayed
 -- Which classes do we want to insist on destroying
 watchedEntities = {
     gmod_wire_expression_2: true
+    gmod_wire_hologram: true
     starfall_processor: true
 }
 
 -- Which property should be checked for validity to decide if this E2 has been abandoned
 checkProperty = {
     gmod_wire_expression_2: "Founder"
+    gmod_wire_hologram: "Founder"
     starfall_processor: "owner"
 }
 
