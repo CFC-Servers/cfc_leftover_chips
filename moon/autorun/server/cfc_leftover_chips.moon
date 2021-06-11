@@ -21,19 +21,20 @@ checkProperty = {
 leftovers = {}
 
 onCreate = (ent) ->
-    return unless IsValid ent
-    return unless watchedEntities[ent\GetClass!]
+    timer.Simple 0, ->
+        return unless IsValid ent
+        return unless rawget watchedEntities, ent\GetClass!
 
-    rawset leftovers, ent, true
+        rawset leftovers, ent, true
 
-    ent\CallOnRemove "CFC_Leftovers_Untrack", ->
-        rawset leftovers, ent, nil
+        ent\CallOnRemove "CFC_Leftovers_Untrack", ->
+            rawset leftovers, ent, nil
 hook.Create "OnEntityCreated", "CFC_Leftovers_Track", onCreate
 
 cleanup = ->
     for leftover in pairs leftovers
         if IsValid leftover
-            property = checkProperty[leftover\GetClass!]
+            property = rawget checkProperty, leftover\GetClass!
             continue if IsValid leftover[property]
 
         SafeRemoveEntityDelayed leftover, 0
