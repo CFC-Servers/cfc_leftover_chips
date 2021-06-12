@@ -29,7 +29,7 @@ onCreate = (ent) ->
 
         ent\CallOnRemove "CFC_Leftovers_Untrack", ->
             rawset leftovers, ent, nil
-hook.Create "OnEntityCreated", "CFC_Leftovers_Track", onCreate
+hook.Add "OnEntityCreated", "CFC_Leftovers_Track", onCreate
 
 cleanup = ->
     for leftover in pairs leftovers
