@@ -11,11 +11,13 @@ watchedEntities = {
     starfall_processor: true
 }
 
+getVar = (key) -> (e) -> e[key]
+
 -- Which property should be checked for validity to decide if this E2 has been abandoned
-checkProperty = {
-    gmod_wire_expression_2: "Founder"
-    gmod_wire_hologram: "Founder"
-    starfall_processor: "owner"
+getters = {
+    gmod_wire_hologram: (e) -> e\GetPlayerEnt!
+    gmod_wire_expression_2: getVar "Founder"
+    starfall_processor: getVar "owner"
 }
 
 leftovers = {}
@@ -34,8 +36,10 @@ hook.Add "OnEntityCreated", "CFC_Leftovers_Track", onCreate
 cleanup = ->
     for leftover in pairs leftovers
         if IsValid leftover
-            property = rawget checkProperty, leftover\GetClass!
-            continue if IsValid leftover[property]
+            getter = rawget getters, leftover\GetClass!
+            continue unless getter
+
+            continue if IsValid getter leftover
 
         SafeRemoveEntityDelayed leftover, 0
 hook.Add "PlayerDisconnected", "CFC_Leftovers_Cleanup", cleanup
