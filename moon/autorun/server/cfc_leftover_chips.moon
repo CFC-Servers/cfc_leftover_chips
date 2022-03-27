@@ -41,4 +41,4 @@ cleanup = ->
         SafeRemoveEntityDelayed leftover, 0
 
 hook.Add "OnEntityCreated", "CFC_Leftovers_Track", onCreate
-hook.Add "PlayerDisconnected", "CFC_Leftovers_Cleanup", timer.Simple 0, cleanup
+hook.Add "PlayerDisconnected", "CFC_Leftovers_Cleanup", timer.Simple 1, cleanup
